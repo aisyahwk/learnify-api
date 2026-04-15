@@ -1,4 +1,5 @@
 <?php
+
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AuthController;
@@ -24,7 +25,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/quiz/{course_id}', [QuizController::class, 'index']);
     Route::post('/quiz', [QuizController::class, 'store']);
-
 });
 
 Route::get('/test', function () {
@@ -40,4 +40,5 @@ Route::get('/submateri/{id}', [MateriController::class, 'subShow']);
 Route::delete('/submateri/{id}', [MateriController::class, 'subDestroy']);
 
 Route::post('/content', [MateriController::class, 'contentStore']);
+Route::get('/content/{id}', [MateriController::class, 'contentShow']);
 Route::delete('/materi/{id}', [MateriController::class, 'materiDestroy']);
