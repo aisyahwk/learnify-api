@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\Materi;
@@ -33,7 +34,17 @@ class MateriController extends Controller
 
     public function subStore(Request $req)
     {
-        return SubMateri::create($req->all());
+        $req->validate([
+            'materi_id' => 'required|exists:materis,id',
+            'judul' => 'required',
+            'ringkasan' => 'required'
+        ]);
+
+        return SubMateri::create([
+            'materi_id' => $req->materi_id,
+            'judul' => $req->judul,
+            'ringkasan' => $req->ringkasan,
+        ]);
     }
 
     public function subShow($id)
@@ -42,14 +53,14 @@ class MateriController extends Controller
     }
 
     public function subDestroy($id)
-{
-    $sub = SubMateri::findOrFail($id);
-    $sub->delete();
+    {
+        $sub = SubMateri::findOrFail($id);
+        $sub->delete();
 
-    return response()->json([
-        'message' => 'Submateri berhasil dihapus'
-    ]);
-}
+        return response()->json([
+            'message' => 'Submateri berhasil dihapus'
+        ]);
+    }
     // =====================
     // CONTENT
     // =====================
@@ -58,14 +69,18 @@ class MateriController extends Controller
     {
         return MateriContent::create($req->all());
     }
+    public function contentShow($id)
+    {
+        return SubMateri::with('content')->findOrFail($id);
+    }
 
     public function materiDestroy($id)
-{
-    $materi = Materi::findOrFail($id);
-    $materi->delete();
+    {
+        $materi = Materi::findOrFail($id);
+        $materi->delete();
 
-    return response()->json([
-        'message' => 'Materi berhasil dihapus'
-    ]);
-}
+        return response()->json([
+            'message' => 'Materi berhasil dihapus'
+        ]);
+    }
 }
